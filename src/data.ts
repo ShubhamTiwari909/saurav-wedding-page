@@ -14,7 +14,7 @@ export interface WeddingEvent {
 export const weddingData = {
 	hero: {
 		eyebrow: 'Together with our families',
-		title: 'Meera & Vihaan',
+		title: 'Sourav & Kajal',
 		message: 'Request the pleasure of your company',
 		date: '10—13 December 2027',
 		image:
@@ -84,6 +84,6 @@ export const weddingData = {
 	closing: {
 		message: 'Do come. These days will not be the same without you.',
 		signOff: 'With love,',
-		names: 'Meera & Vihaan',
+		names: 'Sourav & Kajal',
 	},
 };
