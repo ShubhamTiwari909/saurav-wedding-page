@@ -1,0 +1,129 @@
+---
+import { weddingData } from '../data';
+import '../styles/global.css';
+import ClosingSection from '../components/ClosingSection.astro';
+import EventSection from '../components/EventSection.astro';
+import HeroSection from '../components/HeroSection.astro';
+import InvitationSection from '../components/InvitationSection.astro';
+import MandapDivider from '../components/MandapDivider.astro';
+import FlowerDivider from '../components/FlowerDivider.astro';
+import SectionNavigation from '../components/SectionNavigation.astro';
+
+const sections = [
+	{ id: 'home', label: 'Home' },
+	{ id: 'invitation', label: 'Invitation' },
+	...weddingData.events.map(({ id, title }) => ({ id, label: title === 'The Wedding' ? 'Wedding' : title.replace(' Sandhya', '').replace('Wedding ', '') })),
+	{ id: 'closing', label: 'Closing' },
+];
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="description" content="Meera and Vihaan's wedding invitation, 10—13 December 2027." />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<title>Meera & Vihaan — A Wedding Celebration</title>
+	</head>
+	<body>
+		<SectionNavigation sections={sections} />
+		<main>
+			<div class="petal-layer" aria-hidden="true">
+				{Array.from({ length: 12 }, (_, index) => <span class="petal" style={`left: ${8 + index * 8}%; animation-delay: ${index * 0.8}s; animation-duration: ${8 + (index % 4)}s;`}></span>)}
+			</div>
+			<HeroSection data={weddingData.hero} />
+			<InvitationSection data={weddingData.invitation} />
+			{weddingData.events.map((event, index) => (
+				<>
+					<FlowerDivider />
+					{event.id === 'wedding' && <MandapDivider />}
+					<EventSection event={event} index={index} />
+				</>
+			))}
+			<ClosingSection data={weddingData.closing} />
+		</main>
+	</body>
+</html>
+
+<script>
+	import confetti from 'canvas-confetti';
+
+	const sections = [...document.querySelectorAll('main > section')];
+	const expandingSections = [...document.querySelectorAll<HTMLElement>('.scroll-expand')];
+	const dots = [...document.querySelectorAll('nav[aria-label="Wedding sections"] a')];
+	const reveals = [...document.querySelectorAll('.reveal')];
+	const confettiButtons = document.querySelectorAll<HTMLButtonElement>('[data-confetti-button]');
+	const seal = document.querySelector<HTMLButtonElement>('[data-invitation-seal]');
+	const sealMessage = document.querySelector<HTMLElement>('#seal-message');
+	const countdown = document.querySelector<HTMLElement>('[data-countdown]');
+	const garlandProgress = document.querySelector<HTMLElement>('.garland-progress');
+
+	const celebrate = () => {
+		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+		confetti({ particleCount: 110, scalar: 1.45, spread: 75, origin: { y: 0.62 }, colors: ['#e7c772', '#fff3c4', '#c98c43', '#f7f2e8'] });
+	};
+	const fireworks = () => {
+		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+		[0.25, 0.5, 0.75].forEach((x, index) => {
+			window.setTimeout(() => confetti({
+				particleCount: 45,
+				spread: 360,
+				startVelocity: 28,
+				gravity: 0.75,
+				scalar: 1.1,
+				origin: { x, y: 0.45 },
+				colors: ['#e7c772', '#fff3c4', '#c98c43'],
+			}), index * 180);
+		});
+	};
+	confettiButtons.forEach((button) => button.addEventListener('click', celebrate));
+	seal?.addEventListener('click', () => {
+		const open = seal.getAttribute('aria-expanded') !== 'true';
+		seal.setAttribute('aria-expanded', String(open));
+		sealMessage?.classList.toggle('hidden', !open);
+		if (open) celebrate();
+	});
+	window.addEventListener('load', () => {
+		window.setTimeout(celebrate, 450);
+		window.setTimeout(fireworks, 1000);
+	}, { once: true });
+
+	const weddingDate = new Date('2027-12-10T18:00:00+05:30').getTime();
+	const updateCountdown = () => {
+		if (!countdown) return;
+		const remaining = Math.max(0, weddingDate - Date.now());
+		const days = Math.floor(remaining / 86400000);
+		const hours = Math.floor((remaining / 3600000) % 24);
+		const minutes = Math.floor((remaining / 60000) % 60);
+		countdown.textContent = `${days} days · ${String(hours).padStart(2, '0')} hrs · ${String(minutes).padStart(2, '0')} min`;
+	};
+	updateCountdown();
+	window.setInterval(updateCountdown, 60000);
+
+	const revealObserver = new IntersectionObserver((entries) => entries.forEach((entry) => entry.isIntersecting && entry.target.classList.add('visible')), { threshold: 0.12 });
+	reveals.forEach((element) => revealObserver.observe(element));
+	const expandObserver = new IntersectionObserver((entries) => entries.forEach((entry) => {
+		if (entry.isIntersecting) entry.target.classList.add('expanded');
+	}), { threshold: 0.28 });
+	expandingSections.forEach((section) => expandObserver.observe(section));
+	const sectionObserver = new IntersectionObserver((entries) => entries.forEach((entry) => {
+		if (!entry.isIntersecting) return;
+		const activeIndex = sections.indexOf(entry.target);
+		dots.forEach((dot, index) => dot.querySelector('span')?.classList.toggle('bg-[#ae8230]', index === activeIndex));
+	}), { rootMargin: '-35% 0px -55% 0px' });
+	sections.forEach((section) => sectionObserver.observe(section));
+	window.addEventListener('scroll', () => {
+		if (!garlandProgress) return;
+		const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+		garlandProgress.style.height = `${maxScroll ? (window.scrollY / maxScroll) * 100 : 0}%`;
+	}, { passive: true });
+
+	if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+		window.addEventListener('scroll', () => {
+			document.querySelectorAll<HTMLElement>('.hero-image, .event-parallax-image').forEach((image) => {
+				const speed = Number(image.dataset.parallaxSpeed ?? 0.16);
+				image.style.transform = `translateY(${window.scrollY * speed}px)`;
+			});
+		}, { passive: true });
+	}
+</script>

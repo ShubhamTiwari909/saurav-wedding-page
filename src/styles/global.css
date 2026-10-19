@@ -1,0 +1,258 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+	--font-display: "Cormorant Garamond", Georgia, serif;
+	--font-sans: "DM Sans", sans-serif;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+	margin: 0;
+	background: #f7f2e8;
+	color: #3f382f;
+	font-family: var(--font-sans);
+}
+
+section {
+	scroll-margin-top: 2rem;
+}
+
+.scroll-expand {
+	opacity: .72;
+	transform: scale(.965);
+	transform-origin: center center;
+	transition: opacity 800ms ease, transform 800ms cubic-bezier(.2, .75, .25, 1);
+}
+
+.scroll-expand.expanded {
+	opacity: 1;
+	transform: scale(1);
+}
+
+.ritual-atmosphere::after,
+.reception-atmosphere::after {
+	content: '✦  ❧  ✦';
+	position: absolute;
+	right: 12%;
+	top: 16%;
+	color: rgba(176, 137, 59, .4);
+	font: 1.4rem var(--font-display);
+	letter-spacing: 1rem;
+}
+
+.reception-atmosphere::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background: radial-gradient(circle at 75% 28%, rgba(239, 194, 93, .2), transparent 25%);
+	pointer-events: none;
+}
+
+.day-event {
+	background-color: #fbf7ef;
+}
+
+.night-event {
+	background-color: #5c4730;
+}
+
+.event-sparkles {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	pointer-events: none;
+}
+
+.event-sparkles span {
+	position: absolute;
+	width: 4px;
+	height: 4px;
+	border-radius: 999px;
+	background: #f7d77e;
+	box-shadow: 0 0 14px 4px rgba(247, 215, 126, .7);
+	animation: sparkle 3.5s ease-in-out infinite;
+}
+
+.botanical-lines path {
+	stroke-dasharray: 100;
+	stroke-dashoffset: 100;
+	animation: botanicalDraw 4s ease-in-out infinite alternate;
+}
+
+.mandap-glow {
+	position: absolute;
+	left: 50%;
+	top: 12%;
+	width: min(70vw, 620px);
+	height: 70%;
+	border: 1px solid rgba(231, 199, 114, .45);
+	border-bottom: 0;
+	border-radius: 50% 50% 0 0;
+	transform: translateX(-50%);
+	box-shadow: 0 0 80px rgba(231, 199, 114, .18), inset 0 0 70px rgba(231, 199, 114, .1);
+	animation: mandapGlow 3.5s ease-in-out infinite alternate;
+	pointer-events: none;
+}
+
+.reception-atmosphere::after {
+	animation: candleShimmer 3s ease-in-out infinite alternate;
+}
+
+.memory-card {
+	position: absolute;
+	width: 155px;
+	padding: 10px 10px 18px;
+	background: #fffdf5;
+	box-shadow: 0 14px 28px rgba(83, 61, 23, .18);
+	color: #6d542d;
+	font: .8rem var(--font-display);
+	text-align: center;
+	transition: transform .4s ease, z-index .4s;
+}
+
+.memory-card:hover { z-index: 4; transform: rotate(0deg) translateY(-12px) scale(1.05); }
+.memory-card-left { left: 15%; top: 1rem; transform: rotate(-9deg); }
+.memory-card-center { left: 50%; top: -1rem; transform: translateX(-50%) rotate(3deg); z-index: 2; }
+.memory-card-right { right: 15%; top: 1rem; transform: rotate(8deg); }
+.memory-photo { height: 150px; background-size: cover; background-position: center; filter: saturate(.78) sepia(.12); }
+.memory-card span { display: block; padding-top: 8px; }
+
+.flower-divider { overflow: hidden; }
+.flower-bloom { animation: flowerBloom 2.8s ease-in-out infinite; }
+
+@keyframes botanicalDraw { to { stroke-dashoffset: 0; } }
+@keyframes mandapGlow { to { opacity: .55; transform: translateX(-50%) scale(1.03); } }
+@keyframes candleShimmer { to { opacity: .75; filter: blur(.5px); } }
+@keyframes flowerBloom { 0%, 100% { transform: scale(.8) rotate(0); } 50% { transform: scale(1.15) rotate(45deg); } }
+
+.mandap-divider {
+	animation: mandapReveal 1.2s ease both;
+}
+
+@keyframes mandapReveal {
+	from { opacity: 0; clip-path: inset(100% 0 0); }
+	to { opacity: 1; clip-path: inset(0); }
+}
+
+.reveal {
+	opacity: 0;
+	transform: translateY(28px);
+	transition: opacity 900ms ease, transform 900ms ease;
+}
+
+.reveal.visible {
+	opacity: 1;
+	transform: none;
+}
+
+.sparkle {
+	position: absolute;
+	width: 5px;
+	height: 5px;
+	border-radius: 999px;
+	background: #f7d77e;
+	box-shadow: 0 0 12px 3px rgba(247, 215, 126, .7);
+	animation: sparkle 3.6s ease-in-out infinite;
+}
+
+.sparkle:nth-child(2n) {
+	animation-delay: 1.2s;
+}
+
+.sparkle:nth-child(3n) {
+	animation-delay: 2.2s;
+}
+
+.petal-layer {
+	position: fixed;
+	inset: 0;
+	z-index: 30;
+	pointer-events: none;
+	overflow: hidden;
+}
+
+.petal {
+	position: absolute;
+	top: -8vh;
+	width: 11px;
+	height: 16px;
+	border-radius: 80% 20% 80% 20%;
+	background: #e7b65d;
+	opacity: 0;
+	animation: petalFall 10s linear infinite;
+}
+
+.ornamental-line {
+	stroke-dasharray: 100;
+	stroke-dashoffset: 100;
+	transition: stroke-dashoffset 1.5s ease;
+}
+
+.reveal.visible .ornamental-line {
+	stroke-dashoffset: 0;
+}
+
+@keyframes sparkle {
+	0%, 100% { opacity: .2; transform: scale(.7) translateY(0); }
+	50% { opacity: 1; transform: scale(1.35) translateY(-12px); }
+}
+
+@keyframes petalFall {
+	0% { opacity: 0; transform: translate3d(0, -8vh, 0) rotate(0deg); }
+	12% { opacity: .8; }
+	100% { opacity: 0; transform: translate3d(90px, 112vh, 0) rotate(500deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+
+	.reveal {
+		opacity: 1;
+		transform: none;
+		transition: none;
+	}
+
+	.scroll-expand,
+	.scroll-expand.expanded {
+		opacity: 1;
+		transform: none;
+		transition: none;
+	}
+
+	.sparkle,
+	.petal {
+		animation: none;
+		display: none;
+	}
+
+	.ornamental-line {
+		stroke-dashoffset: 0;
+		transition: none;
+	}
+
+	.mandap-divider {
+		animation: none;
+	}
+
+	.event-sparkles span,
+	.botanical-lines path,
+	.mandap-glow,
+	.reception-atmosphere::after,
+	.flower-bloom {
+		animation: none;
+	}
+}
+
+@media (max-width: 720px) {
+	.memory-cards {
+		transform: scale(.98);
+		transform-origin: top center;
+		margin-bottom: 0;
+	}
+}

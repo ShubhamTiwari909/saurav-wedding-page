@@ -1,0 +1,26 @@
+{
+  "name": "-saurav-wedding-page",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "devDependencies": {
+    "@astrojs/react": "^7.1.0",
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/canvas-confetti": "^1.9.0",
+    "@types/react": "18.0.28",
+    "@types/react-dom": "18.0.11",
+    "astro": "^7.3.8",
+    "tailwindcss": "^4.3.3"
+  },
+  "dependencies": {
+    "canvas-confetti": "^1.9.4",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  }
+}

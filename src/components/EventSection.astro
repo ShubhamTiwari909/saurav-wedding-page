@@ -1,0 +1,85 @@
+---
+import type { WeddingEvent } from '../data';
+
+interface Props {
+	event: WeddingEvent;
+	index: number;
+}
+
+const { event, index } = Astro.props;
+const cinematic = event.id === 'sangeet' || event.id === 'wedding';
+const framed = event.id === 'rituals' || event.id === 'reception';
+const backgroundImage = event.id === 'sangeet';
+const spacious = backgroundImage || event.id === 'reception';
+const imageRight = index % 2 === 1;
+---
+
+<section class:list={[
+	'relative isolate flex min-h-svh items-center overflow-hidden px-[max(7vw,2rem)] py-32',
+	cinematic ? 'min-h-[110svh] bg-[#5c4730] text-[#fffaf1]' : 'bg-[#fbf7ef]',
+	event.id === 'rituals' ? 'ritual-atmosphere' : '',
+	event.id === 'reception' ? 'reception-atmosphere day-event' : '',
+	event.id === 'sangeet' ? 'sangeet-atmosphere night-event' : '',
+	event.id === 'wedding' ? 'wedding-atmosphere night-event' : '',
+	event.id === 'rituals' ? 'day-event' : '',
+	imageRight ? 'image-right' : 'image-left',
+	'max-md:flex-col max-md:items-stretch max-md:gap-12 max-md:px-5 max-md:py-24',
+	'scroll-expand',
+]} id={event.id}>
+	{event.id === 'sangeet' && <div class="event-sparkles" aria-hidden="true">{Array.from({ length: 8 }, (_, index) => <span style={`left:${12 + index * 10}%; top:${20 + (index % 4) * 17}%; animation-delay:${index * .4}s`}></span>)}</div>}
+	{event.id === 'rituals' && <svg class="botanical-lines absolute inset-8 z-0 h-[calc(100%-4rem)] w-[calc(100%-4rem)] opacity-40" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M5 85 C20 55, 12 30, 30 10 M5 85 C28 78, 35 88, 48 70 M95 85 C80 55, 88 30, 70 10 M95 85 C72 78, 65 88, 52 70" fill="none" stroke="#b9954a" stroke-width=".45" pathLength="100" /></svg>}
+	{event.id === 'wedding' && <div class="mandap-glow" aria-hidden="true"></div>}
+	{backgroundImage && <div class="event-parallax-image absolute -inset-[8%] -z-30 bg-cover bg-center" style={`background-image: url(${event.image})`} data-parallax-speed="0.12"></div>}
+	{backgroundImage && <div class="absolute inset-0 -z-20 bg-[linear-gradient(180deg,rgba(40,25,14,.28),rgba(48,29,15,.82)),linear-gradient(90deg,rgba(36,22,12,.58),rgba(36,22,12,.18))]"></div>}
+	<div class:list={[
+		'absolute inset-0 -z-10',
+		cinematic
+			? 'bg-[#b98c47]/25 [clip-path:polygon(45%_0,100%_7%,100%_100%,25%_87%)] max-md:[clip-path:polygon(0_0,100%_10%,100%_100%,0_92%)]'
+			: 'bg-[radial-gradient(circle_at_15%_50%,rgba(228,199,125,.28),transparent_65%)]',
+	]}></div>
+	{framed && <div class="pointer-events-none absolute inset-[9%_5%] rounded-t-[50%] border border-[#b0893b]/20"></div>}
+	<div class:list={[
+		'reveal relative z-10 w-[min(49vw,670px)] max-md:order-1 max-md:ml-auto max-md:w-[92%]',
+		imageRight ? 'order-2 ml-auto' : '',
+		backgroundImage ? 'hidden' : '',
+		framed ? 'drop-shadow-[0_25px_25px_rgba(104,75,31,.15)] before:absolute before:inset-[-20px_-20px_20px_20px] before:-z-10 before:border before:border-[#b0893b]/50' : '',
+	]}>
+		<img class="block h-[min(66vh,620px)] w-full object-cover saturate-[.78] sepia-[.1] max-md:h-[55vh] max-md:min-h-[390px]" src={event.image} alt={event.imageAlt} loading={index === 2 ? 'eager' : 'lazy'} />
+		<div class="pointer-events-none absolute inset-[18px] border border-[#fff2cc]/80"></div>
+		<svg class="pointer-events-none absolute -inset-3 h-[calc(100%+24px)] w-[calc(100%+24px)]" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+			<rect class="ornamental-line" x="1" y="1" width="98" height="98" fill="none" stroke="#e5c36d" stroke-width=".35" pathLength="100" />
+		</svg>
+	</div>
+	<div class:list={[
+		'reveal z-10 w-[min(40%,475px)] max-md:order-2 max-md:mx-auto max-md:w-[90%]',
+		imageRight ? 'order-1 mr-[clamp(3rem,8vw,10rem)]' : 'ml-[clamp(3rem,8vw,10rem)]',
+		spacious ? 'mx-auto w-[min(90%,620px)] space-y-7 py-12 text-center [&_.gold-rule]:mx-auto max-md:space-y-6 max-md:py-16' : '',
+	]}>
+		<p class:list={['font-sans text-[.66rem] uppercase tracking-[.27em]', cinematic ? 'text-[#f0d488]' : 'text-[#977536]']}>{event.dateLabel}</p>
+		<div class="mx-auto w-[58px] border-t border-[#b9954a]"></div>
+		<h2 class:list={['font-display text-[clamp(3.7rem,7vw,7.2rem)] font-medium leading-[.95]', cinematic ? 'text-[#fff9ed]' : 'text-[#53432c]']}>{event.title}</h2>
+		<p class:list={['max-w-[300px] font-display text-[1.55rem] leading-[1.25]', spacious ? 'mx-auto max-w-[420px] text-[1.8rem]' : '']}>{event.description}</p>
+		<div class:list={['grid gap-5 border-t pt-6 font-sans text-[.82rem]', spacious ? 'mx-auto max-w-[420px] grid-cols-2 text-left' : '', cinematic ? 'border-[#f8df9b]/45 text-[#f4deb0]' : 'border-[#876326]/35 text-[#755d32]']}>
+			<div class="grid gap-1"><span class="font-sans text-[.58rem] uppercase tracking-[.27em] text-[#ae8a40]">Time</span><strong class:list={['font-medium', cinematic ? 'text-[#fff9ed]' : 'text-[#4c3b24]']}>{event.time}</strong></div>
+			<div class="grid gap-1">
+				<span class="font-sans text-[.58rem] uppercase tracking-[.27em] text-[#ae8a40]">Venue</span>
+				<strong class:list={['font-medium', cinematic ? 'text-[#fff9ed]' : 'text-[#4c3b24]']}>{event.venue}</strong>
+				<span>{event.address}</span>
+				<a
+					class:list={[
+						'mt-2 inline-flex w-fit items-center gap-2 border px-3 py-2 font-sans text-[.58rem] uppercase tracking-[.14em] transition-colors hover:bg-[#c8a75d] hover:text-[#fffaf1] focus-visible:outline-2 focus-visible:outline-offset-2',
+						cinematic ? 'border-[#e5c36d]/70 text-[#f8df9b] focus-visible:outline-[#f8df9b]' : 'border-[#b9954a]/70 text-[#8d6c2e] focus-visible:outline-[#8d6c2e]',
+					]}
+					href={event.mapsUrl}
+					target="_blank"
+					rel="noopener noreferrer"
+					aria-label={`Open directions to ${event.venue} in Google Maps`}
+				>
+					<span aria-hidden="true">↗</span> View location
+				</a>
+			</div>
+		</div>
+	</div>
+	{framed && <div class="absolute bottom-[-8%] right-[10%] h-[370px] w-[220px] rounded-t-[150px] border border-[#a9802f]/25 border-b-0 max-md:hidden"></div>}
+	<div class="absolute right-[8%] top-[11%] font-display text-2xl tracking-[.15em] text-[#b69454] max-md:top-[3%] max-md:right-[7%]">{String(index + 1).padStart(2, '0')}</div>
+</section>

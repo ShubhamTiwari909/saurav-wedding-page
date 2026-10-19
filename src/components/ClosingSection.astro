@@ -1,0 +1,26 @@
+---
+import { weddingData } from '../data';
+
+interface Props {
+	data: typeof weddingData.closing;
+}
+
+const { data } = Astro.props;
+---
+
+<section class="scroll-expand relative grid min-h-[92svh] place-items-center overflow-hidden bg-[#eee5d4] px-6 py-24 text-center" id="closing">
+	<div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=2200&q=80')] bg-cover bg-center opacity-40 mix-blend-multiply" aria-hidden="true"></div>
+	<div class="absolute inset-0 bg-[#e7dcc8]/48" aria-hidden="true"></div>
+	<div class="absolute inset-0 bg-[#493722]/8" aria-hidden="true"></div>
+	<div class="absolute h-[600px] w-[600px] rounded-full bg-[radial-gradient(circle,rgba(230,196,112,.2),transparent_68%)]"></div>
+	<div class="absolute left-[23%] top-1/4 text-2xl text-[#c5a051]/55">✦</div><div class="absolute bottom-1/4 right-[22%] rotate-[-22deg] text-2xl text-[#c5a051]/55">✦</div>
+	<div class="reveal relative z-10 max-w-[550px]">
+		<div class="mx-auto mb-11 grid h-14 w-14 rotate-45 place-items-center border border-[#c8a75d] text-[#b58b36]"><span class="-rotate-45 text-xl">✦</span></div>
+		<p class="font-display text-xl italic text-[#a17b35]">Until we meet beneath the marigolds</p>
+		<p class="my-8 font-display text-[clamp(2rem,4vw,3.1rem)] leading-[1.05]">{data.message}</p>
+		<div class="mx-auto my-7 w-[58px] border-t border-[#b9954a]"></div>
+		<p class="mb-2 font-display text-xl">{data.signOff}</p>
+		<h2 class="font-display text-[clamp(3.3rem,7vw,5.5rem)] font-medium leading-[.9] text-[#5b482d]">{data.names}</h2>
+	</div>
+	<p class="absolute bottom-9 font-sans text-[.6rem] tracking-[.3em] text-[#a4874e]">10—13 · XII · MMXXVII</p>
+</section>

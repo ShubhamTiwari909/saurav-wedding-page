@@ -1,0 +1,36 @@
+---
+import { weddingData } from '../data';
+
+interface Props {
+	data: typeof weddingData.hero;
+}
+
+const { data } = Astro.props;
+---
+
+<section class="relative isolate grid min-h-svh place-items-center overflow-hidden text-[#fffaf1]" id="home">
+	<div class="hero-image absolute -inset-[8%] -z-30 bg-cover bg-center" style={`background-image: url(${data.image})`}></div>
+	<div class="absolute inset-0 -z-20 bg-[linear-gradient(180deg,rgba(31,24,17,.25),rgba(48,35,20,.68)),linear-gradient(90deg,rgba(34,25,16,.32),transparent_60%)]"></div>
+	<div class="absolute inset-7 -z-10 border border-[#f8e09d]/70 max-md:inset-4"></div>
+	<div class="absolute inset-7 -z-10 border-l-2 border-t-2 border-[#e5c36d] max-md:inset-4"></div>
+	<div class="absolute bottom-7 right-7 -z-10 h-24 w-24 border-b-2 border-r-2 border-[#e5c36d] max-md:bottom-4 max-md:right-4"></div>
+	<div class="absolute left-[14%] top-[15%] text-3xl text-[#e7c772] opacity-85 max-md:left-[9%] max-md:text-xl">✦</div>
+	<div class="absolute bottom-[19%] right-[14%] text-3xl text-[#e7c772] opacity-85 max-md:right-[9%] max-md:text-xl">✦</div>
+	<div class="pointer-events-none absolute inset-0" aria-hidden="true">
+		<span class="sparkle left-[22%] top-[30%]"></span>
+		<span class="sparkle left-[31%] top-[65%]"></span>
+		<span class="sparkle left-[70%] top-[25%]"></span>
+		<span class="sparkle left-[78%] top-[58%]"></span>
+		<span class="sparkle left-[16%] top-[72%]"></span>
+		<span class="sparkle left-[86%] top-[37%]"></span>
+	</div>
+	<div class="reveal max-w-[800px] p-8 text-center">
+		<p class="font-sans text-[.66rem] uppercase tracking-[.27em] text-[#f9e2a2]">{data.eyebrow}</p>
+		<div class="mx-auto my-7 w-[38px] border-t border-[#e8c971]"></div>
+		<h1 class="font-display text-[clamp(4.7rem,13vw,10.5rem)] font-medium leading-[.9] tracking-[-.045em]">{data.title}</h1>
+		<p class="my-8 font-display text-[clamp(1.25rem,2.4vw,1.8rem)]">{data.message}</p>
+		<p class="font-sans text-[.75rem] tracking-[.24em] text-[#f9e2a2]">{data.date}</p>
+		<button class="mt-8 border border-[#f8e2a2]/75 bg-[#2f2315]/25 px-5 py-3 font-sans text-[.62rem] uppercase tracking-[.16em] text-[#fff8e7] transition hover:-translate-y-0.5 hover:bg-[#f0d17c] hover:text-[#4d3820] focus-visible:outline-2 focus-visible:outline-[#fff8e7] focus-visible:outline-offset-4" type="button" data-confetti-button>Celebrate with us <span class="ml-2 text-[#f0d17c]">✦</span></button>
+	</div>
+	<a class="absolute bottom-8 flex flex-col items-center gap-2 font-sans text-[.6rem] uppercase tracking-[.2em] text-white" href="#invitation"><span>Scroll to explore</span><b class="text-lg font-normal text-[#e8c971]">↓</b></a>
+</section>

@@ -1,0 +1,37 @@
+---
+import { weddingData } from '../data';
+import WeddingTimeline from './WeddingTimeline.astro';
+import MemoryCards from './MemoryCards.astro';
+
+interface Props {
+	data: typeof weddingData.invitation;
+}
+
+const { data } = Astro.props;
+---
+
+<section class="relative grid min-h-[92svh] place-items-center overflow-hidden bg-[#f7f2e8] px-6 py-32" id="invitation">
+	<div class="absolute h-[720px] w-[720px] rounded-full border border-[#b98f34]/[.18] before:absolute before:inset-[10%] before:rounded-full before:border before:border-[#b98f34]/[.12] after:absolute after:inset-[20%] after:rounded-full after:border after:border-[#b98f34]/[.1]"></div>
+	<div class="absolute left-[13%] top-1/4 rotate-[-35deg] font-display text-8xl text-[#b9954a]/55">❧</div>
+	<div class="reveal relative w-full max-w-[620px] border border-[#c8a75d] bg-gradient-to-br from-[#fffdf5]/90 to-[#faefcc]/60 px-8 py-[4.5rem] text-center shadow-[0_25px_75px_rgba(83,61,23,.13)] sm:px-24">
+		<div class="pointer-events-none absolute inset-[30px] border border-[#c8a75d]/40"></div>
+		<div class="absolute left-3 top-3 h-11 w-11 border-l border-t border-[#c8a75d]"></div><div class="absolute right-3 top-3 h-11 w-11 border-r border-t border-[#c8a75d]"></div>
+		<div class="absolute bottom-3 left-3 h-11 w-11 border-b border-l border-[#c8a75d]"></div><div class="absolute bottom-3 right-3 h-11 w-11 border-b border-r border-[#c8a75d]"></div>
+		<p class="relative font-sans text-[.66rem] uppercase tracking-[.27em] text-[#98752f]">{data.kicker}</p>
+		<button class="invitation-seal mx-auto my-5 grid h-11 w-11 rotate-45 place-items-center border border-[#c8a75d] bg-transparent text-[#b58b36] transition-transform hover:scale-110 focus-visible:outline-2 focus-visible:outline-[#98752f] focus-visible:outline-offset-4" type="button" data-invitation-seal aria-expanded="false" aria-controls="seal-message"><span class="-rotate-45 text-lg">✦</span></button>
+		<p class="seal-message relative hidden font-display text-lg italic text-[#98752f]" id="seal-message">With love, from our families</p>
+		<p class="relative -mb-3 mt-5 font-display text-xl italic text-[#a17b35]">A new chapter begins</p>
+		<h2 class="relative font-display text-[clamp(3.3rem,8vw,5.5rem)] font-medium leading-[.9] text-[#51422d]">Meera <em class="font-normal text-[#b08b42]">&</em> Vihaan</h2>
+		<p class="relative mx-auto my-7 max-w-[340px] font-display text-[1.35rem] leading-[1.35]">{data.message}</p>
+		<div class="mx-auto my-7 w-[58px] border-t border-[#b9954a]"></div>
+		<p class="font-sans text-[.72rem] tracking-[.2em] text-[#80652f]">{data.date}</p>
+		<p class="mt-2 font-display text-xl">{data.location}</p>
+		<div class="mx-auto mt-8 w-[74px] border-y border-[#c8a75d] py-2 font-display text-xs tracking-[.2em] text-[#a17b35]">M <span class="mx-1 text-[.55rem]">✦</span> V</div>
+	</div>
+	<div class="reveal flex w-full flex-col items-center text-center">
+		<div class="mt-12 font-display text-4xl text-[#b9954a]" data-countdown aria-live="polite">Loading our countdown…</div>
+		<p class="mt-2 font-sans text-[.58rem] uppercase tracking-[.25em] text-[#98752f]">Until the celebrations begin</p>
+		<WeddingTimeline events={weddingData.events} />
+	</div>
+	<MemoryCards />
+</section>
